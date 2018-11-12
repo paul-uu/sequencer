@@ -1,0 +1,55 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+
+.tones {  }
+
+.tone-row {
+  height: 30px;
+}
+.tone-button {
+  background-color: white;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  border: 1px solid #999;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.tone-button:hover {
+  background-color: orange;
+}
+
+.tone-button:focus,
+.tone-button:active {
+  outline: none;
+}
+.tone-button.active {
+  background-color: red;
+}
+
+.tone-row:first-child > .tone-button { border-top-width: 2px; }
+.tone-row:last-child > .tone-button  { border-bottom-width: 2px; }
+.tone-button:first-child { border-left-width: 2px; }
+.tone-button:last-child  { border-right-width: 2px; }
