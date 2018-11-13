@@ -24,7 +24,6 @@
 
 
 .tones {  }
-
 .tone-row {
   height: 30px;
 }
@@ -53,3 +52,17 @@
 .tone-row:last-child > .tone-button  { border-bottom-width: 2px; }
 .tone-button:first-child { border-left-width: 2px; }
 .tone-button:last-child  { border-right-width: 2px; }
+
+.beat-markers {  }
+.beat-marker {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  margin: 0 12px;
+  border-radius: 50%;
+  border: 1px solid #999;
+  background-color: white;
+}
+.beat-marker.active {
+  background-color: red;
+}

@@ -12,7 +12,8 @@ class ToneMatrix extends Component {
     this.handleToggleTone = this.handleToggleTone.bind(this);
     this.initStepSequencer = this.initStepSequencer.bind(this);
     this.state = {
-      matrix: this.props.matrix
+      matrix: this.props.matrix,
+      currentBeat: 1
     }
   }
   componentDidMount() {
@@ -37,8 +38,8 @@ class ToneMatrix extends Component {
     }
     let index = 0;
     const repeat = (time) => {
-      let step = index % SIZE; // current beat
-
+      let step = index % SIZE;
+      this.setState({ currentBeat: step + 1 });
       for (let i = 0; i < SIZE; i++) {
         let row = this.state.matrix[i];
         if ( row[step] ) {
@@ -51,26 +52,48 @@ class ToneMatrix extends Component {
   }
 
   render() {
-    const matrix = this.props.matrix;
+    const matrix = this.state.matrix;
+    let currentBeat = this.state.currentBeat;
     return (
-      <section className='tones'>
-        {
-          matrix.map((row, rowIndex) => 
-            <div className='tone-row' key={`row-${rowIndex}`}>
-            {
-              row.map((col, colIndex) => 
-                <ToneButton 
-                  key={'' + rowIndex + colIndex} 
-                  isActive={col}
-                  toggleTone={this.handleToggleTone.bind(null, rowIndex, colIndex) } />
-              )
-            }
-            </div>
-          )
-        }
-      </section>
+      <div>
+        <section className='tones'>
+          {
+            matrix.map((row, rowIndex) => 
+              <div className='tone-row' key={`row-${rowIndex}`}>
+              {
+                row.map((col, colIndex) => 
+                  <ToneButton 
+                    key={'' + rowIndex + colIndex} 
+                    isActive={col}
+                    toggleTone={this.handleToggleTone.bind(null, rowIndex, colIndex) } />
+                )
+              }
+              </div>
+            )
+          }
+        </section>
+
+        <BeatMarker currentBeat={currentBeat} />
+      </div>
     )
   }
+}
+
+const BeatMarker = props => { 
+  let markers = [];
+  for (let i = 0; i < SIZE; i++) { markers.push(i + 1) }
+  return (
+  <div className='beat-markers'>
+  {
+    markers.map(marker => 
+      <span 
+        className={ (props.currentBeat === marker ? 'active' : '') + ' beat-marker' }
+        key={marker}
+      >
+      </span>)
+  }
+  </div>
+  )
 }
 
 const mapStateToProps = state => ({
