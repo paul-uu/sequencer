@@ -11,77 +11,63 @@ class ToneMatrix extends Component {
     super(props);
     this.handleToggleTone = this.handleToggleTone.bind(this);
     this.initStepSequencer = this.initStepSequencer.bind(this);
-    this.sequencerEventId = null;
     this.state = {
-      num: null
+      matrix: this.props.matrix
     }
   }
   componentDidMount() {
-    this.props.initToneMatrix(SIZE);
-    
-  }
-  componentDidUpdate() {
     this.initStepSequencer();
   }
-
+  componentDidUpdate(previousProps, previousState) {
+    if (previousState.matrix !== this.props.matrix) {
+      this.setState({ matrix: this.props.matrix });
+    }
+  }
   handleToggleTone(row, col) {
     this.props.toggleTone(row, col);
   }
 
   initStepSequencer() {
-    if (this.sequencerEventId !== null) {
-      Tone.Transport.clear(this.sequencerEventId);
-    }
-    const matrix = this.props.matrix;
-    const notes = createNotesArr(SIZE);
+    const notes = createNotesArr(SIZE).reverse();
     const synths = [];
-    let eventId;
     for (let i = 0; i < SIZE; i++) {
       synths.push(new Tone.Synth());
       synths[i].oscillator.type = 'sine';
       synths[i].toMaster();
     }
-    if (matrix.length > 0) {
-      console.log(matrix);
-      eventId = Tone.Transport.scheduleRepeat(repeat, `${SIZE}n`);
-      this.sequencerEventId = eventId
-    }
-
     let index = 0;
-    function repeat(time) {
-      let step = index % SIZE;
+    const repeat = (time) => {
+      let step = index % SIZE; // current beat
+
       for (let i = 0; i < SIZE; i++) {
-        let row = matrix[i];
-
-        console.log(row[step]);
-
-        if ( row[step + 1] ) {
+        let row = this.state.matrix[i];
+        if ( row[step] ) {
           synths[i].triggerAttackRelease(notes[i], `${SIZE}n`, time);
-          console.log( notes[i] );
         }
       }
       index++;
     }
+    Tone.Transport.scheduleRepeat(repeat, `${SIZE}n`);
   }
 
   render() {
     const matrix = this.props.matrix;
     return (
       <section className='tones'>
-      {
-        matrix.map((row, rowIndex) => 
-          <div className='tone-row' key={`row-${rowIndex}`}>
-          {
-            row.map((col, colIndex) => 
-              <ToneButton 
-                key={'' + rowIndex + colIndex} 
-                isActive={col}
-                toggleTone={this.handleToggleTone.bind(null, rowIndex, colIndex) } />
-            )
-          }
-          </div>
-        )
-      }
+        {
+          matrix.map((row, rowIndex) => 
+            <div className='tone-row' key={`row-${rowIndex}`}>
+            {
+              row.map((col, colIndex) => 
+                <ToneButton 
+                  key={'' + rowIndex + colIndex} 
+                  isActive={col}
+                  toggleTone={this.handleToggleTone.bind(null, rowIndex, colIndex) } />
+              )
+            }
+            </div>
+          )
+        }
       </section>
     )
   }

@@ -1,6 +1,7 @@
-import { TOGGLE_TONE, INIT_TONE_MATRIX } from '../constants';
+import { TOGGLE_TONE, INIT_TONE_MATRIX, SIZE } from '../constants';
+import { createEmptyMatrix } from '../utilities';
 
-function toneMatrix(state = [], action) {
+function toneMatrix(state = createEmptyMatrix(SIZE), action) {
   switch(action.type) {
     case TOGGLE_TONE:
       return state.map((row, rowIndex) => {
