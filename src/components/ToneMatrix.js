@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ToneButton from './ToneButton';
-import { toggleTone, initToneMatrix, togglePlay } from '../actions';
+import { toggleTone, initToneMatrix } from '../actions';
 import { SIZE } from '../constants';
 import Tone from 'tone';
 import { createNotesArr } from '../utilities';
@@ -34,6 +34,7 @@ class ToneMatrix extends Component {
     for (let i = 0; i < SIZE; i++) {
       synths.push(new Tone.Synth());
       synths[i].oscillator.type = 'sine';
+      synths[i].volume.value = -5;
       synths[i].toMaster();
     }
     let index = 0;
