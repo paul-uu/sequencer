@@ -4,7 +4,7 @@ const ToneButton = props => {
   const cssClass = props.isActive ? 'active' : ''
   return (
     <button 
-      onClick={props.toggleTone}
+      onClick={props.asyncToggleTone}
       className={`tone-button ${cssClass}`}>
     </button>
   )

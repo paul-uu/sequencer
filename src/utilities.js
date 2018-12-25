@@ -11,6 +11,18 @@ export const createEmptyMatrix = size => {
   return matrix;
 }
 
+export const createEmptyTonesObj = size => {
+  let tones = {};
+  for (let i = 0; i < size; i++) {
+    let row = [];
+    for (let colIndex = 0; colIndex < size; colIndex++) {
+      row[colIndex] = false;
+    }
+    tones[i] = row;
+  }
+  return tones;
+}
+
 export const createNotesArr = (size, startingNote, startingOctave) => {
 
   const notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];

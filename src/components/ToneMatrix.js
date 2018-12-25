@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import ToneButton from './ToneButton';
-import { toggleTone, initToneMatrix } from '../actions';
+import { toggleTone, initToneMatrix, asyncToggleTone } from '../actions';
 import { SIZE } from '../constants';
 import Tone from 'tone';
 import { createNotesArr } from '../utilities';
+import { firestoreConnect } from 'react-redux-firebase';
 
 class ToneMatrix extends Component {
   constructor(props) {
     super(props);
     this.handleToggleTone = this.handleToggleTone.bind(this);
+    this.handleAsyncToggleTone = this.handleAsyncToggleTone.bind(this);
     this.initStepSequencer = this.initStepSequencer.bind(this);
+
+    this.tonesObjToArray = this.tonesObjToArray.bind(this);
+
     this.state = {
       matrix: this.props.matrix,
+      firestoreTones: this.props.firestoreTones,
       currentBeat: 1
     }
   }
@@ -20,12 +27,15 @@ class ToneMatrix extends Component {
     this.initStepSequencer();
   }
   componentDidUpdate(previousProps, previousState) {
-    if (previousState.matrix !== this.props.matrix) {
-      this.setState({ matrix: this.props.matrix });
+    if (previousState.firestoreTones !== this.props.firestoreTones) {
+      this.setState({ firestoreTones: this.props.firestoreTones });
     }
   }
   handleToggleTone(row, col) {
     this.props.toggleTone(row, col);
+  }
+  handleAsyncToggleTone(row, col) {
+    this.props.asyncToggleTone(row, col);
   }
 
   initStepSequencer() {
@@ -42,7 +52,7 @@ class ToneMatrix extends Component {
       let step = index % SIZE;
       this.setState({ currentBeat: step + 1 });
       for (let i = 0; i < SIZE; i++) {
-        let row = this.state.matrix[i];
+        let row = this.state.firestoreTones[i];
         if ( row[step] ) {
           synths[i].triggerAttackRelease(notes[i], `${SIZE}n`, time);
         }
@@ -52,21 +62,34 @@ class ToneMatrix extends Component {
     Tone.Transport.scheduleRepeat(repeat, `${SIZE}n`);
   }
 
+  tonesObjToArray(tonesObj) {
+    let tonesArr = [];
+    if (tonesObj) {
+      const objLength = Object.keys(tonesObj).length;
+      tonesArr = [];
+      for (let i = 0; i < objLength; i++) {
+        tonesArr[i] = tonesObj[i];
+      }
+    }
+    return tonesArr;
+  }
+
   render() {
-    const matrix = this.state.matrix;
+    const firestoreTonesArr = this.tonesObjToArray(this.state.firestoreTones);
     let currentBeat = this.state.currentBeat;
     return (
       <div>
         <section className='tones'>
           {
-            matrix.map((row, rowIndex) => 
+            firestoreTonesArr.map((row, rowIndex) => 
               <div className='tone-row' key={`row-${rowIndex}`}>
               {
                 row.map((col, colIndex) => 
                   <ToneButton 
                     key={'' + rowIndex + colIndex} 
                     isActive={col}
-                    toggleTone={this.handleToggleTone.bind(null, rowIndex, colIndex) } />
+                    toggleTone={this.handleToggleTone.bind(null, rowIndex, colIndex) }
+                    asyncToggleTone={this.handleAsyncToggleTone.bind(null, rowIndex, colIndex)} />
                 )
               }
               </div>
@@ -97,13 +120,25 @@ const BeatMarker = props => {
   )
 }
 
-const mapStateToProps = state => ({
-  matrix: state.toneMatrix,
-  isPlaying: state.isPlaying
-});
+const mapStateToProps = state => {
+  let firestoreTones = state.firestore.data.toneMatrix
+    ? state.firestore.data.toneMatrix.initialMatrix.tones
+    : null;
+
+  return {
+    matrix: state.toneMatrix,
+    isPlaying: state.isPlaying,
+    firestore: state.firestore,
+    firestoreTones
+  }
+};
 const mapDispatchToProps = dispatch => ({
   toggleTone: (row, col, isActive) => dispatch(toggleTone(row, col)),
-  initToneMatrix: (size) => dispatch(initToneMatrix(size)),
+  asyncToggleTone: (row, col) => dispatch(asyncToggleTone(row, col)),
+  initToneMatrix: (size) => dispatch(initToneMatrix(size))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ToneMatrix);
+export default compose(
+  firestoreConnect( [{ collection: 'toneMatrix' }] ),
+  connect(mapStateToProps, mapDispatchToProps)
+)(ToneMatrix);
