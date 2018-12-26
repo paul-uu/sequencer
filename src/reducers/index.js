@@ -2,8 +2,7 @@ import { combineReducers } from 'redux';
 import bpm from './bpm';
 import isPlaying from './isPlaying';
 import toneMatrix from './toneMatrix';
-import { firestoreReducer } from 'redux-firestore'; // reducer for syncing local redux store with firestore db
-import { firebaseReducer } from 'react-redux-firebase';
+import { firestoreReducer } from 'redux-firestore';
 
 export default combineReducers({ 
   bpm, 

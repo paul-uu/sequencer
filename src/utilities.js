@@ -1,16 +1,5 @@
 export const generateId = () => '_' + Math.random().toString(36).substr(2, 9);
 
-export const createEmptyMatrix = size => {
-  let matrix = [];
-  for (var i = 0; i < size; i++) {
-    matrix.push([]);
-    for (var j = 0; j < size; j++) {
-      matrix[i][j] = false;
-    }
-  }
-  return matrix;
-}
-
 export const createEmptyTonesObj = size => {
   let tones = {};
   for (let i = 0; i < size; i++) {

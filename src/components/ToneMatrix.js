@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import ToneButton from './ToneButton';
-import { toggleTone, initToneMatrix, asyncToggleTone } from '../actions';
+import { toggleTone, asyncToggleTone } from '../actions';
 import { SIZE } from '../constants';
 import Tone from 'tone';
 import { createNotesArr } from '../utilities';
@@ -134,8 +134,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => ({
   toggleTone: (row, col, isActive) => dispatch(toggleTone(row, col)),
-  asyncToggleTone: (row, col) => dispatch(asyncToggleTone(row, col)),
-  initToneMatrix: (size) => dispatch(initToneMatrix(size))
+  asyncToggleTone: (row, col) => dispatch(asyncToggleTone(row, col))
 })
 
 export default compose(

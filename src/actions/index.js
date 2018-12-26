@@ -1,7 +1,7 @@
 import {
-  TOGGLE_PLAY, TOGGLE_TONE, SET_BPM, INIT_TONE_MATRIX, SIZE
+  TOGGLE_PLAY, TOGGLE_TONE, SET_BPM, SIZE
 } from '../constants';
-import { createEmptyMatrix, createEmptyTonesObj } from '../utilities';
+import { createEmptyTonesObj } from '../utilities';
 
 export const togglePlay = () => ({ 
   type: TOGGLE_PLAY
@@ -32,14 +32,8 @@ export const asyncToggleTone = (row, col) => (dispatch, getState, { getFirebase,
     
   })
   .then(() => {
-    console.log('async action complete');
+    dispatch({ 
+      type: TOGGLE_TONE
+    });
   });
 };
-
-
-export const initToneMatrix = size => ({
-  type: INIT_TONE_MATRIX,
-  data: { 
-    matrix: createEmptyMatrix(size) 
-  }
-});
