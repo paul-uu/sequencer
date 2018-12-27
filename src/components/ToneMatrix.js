@@ -7,6 +7,7 @@ import { SIZE } from '../constants';
 import Tone from 'tone';
 import { createNotesArr } from '../utilities';
 import { firestoreConnect } from 'react-redux-firebase';
+import { GridLoader } from 'react-spinners';
 
 class ToneMatrix extends Component {
   constructor(props) {
@@ -80,8 +81,10 @@ class ToneMatrix extends Component {
     return (
       <div>
         <section className='tones'>
-          {
-            firestoreTonesArr.map((row, rowIndex) => 
+        {
+          firestoreTonesArr.length === SIZE
+      
+            ? (firestoreTonesArr.map((row, rowIndex) => 
               <div className='tone-row' key={`row-${rowIndex}`}>
               {
                 row.map((col, colIndex) => 
@@ -93,11 +96,15 @@ class ToneMatrix extends Component {
                 )
               }
               </div>
+            )) : (
+              <div className='grid-loader'>
+                <GridLoader color={'#999'} size={30} />
+              </div>
             )
-          }
+        }
         </section>
 
-        <BeatMarker currentBeat={currentBeat} />
+        { firestoreTonesArr.length === SIZE && <BeatMarker currentBeat={currentBeat} /> }
       </div>
     )
   }

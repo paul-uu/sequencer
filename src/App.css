@@ -66,3 +66,7 @@
 .beat-marker.active {
   background-color: red;
 }
+
+.grid-loader > div {
+  margin: 15px auto;
+}
