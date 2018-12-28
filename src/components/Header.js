@@ -7,7 +7,6 @@ class Header extends Component {
 
   componentDidMount() {
     Tone.Transport.bpm.value = this.props.bpm;
-    //this.initStepSequencer();
   }
 
   render() {
@@ -27,13 +26,10 @@ class Header extends Component {
 const PlayStop = props => {
   const text = props.isPlaying ? 'Stop' : 'Play';
   var handleToggle = () => {
-    props.isPlaying 
-      ? Tone.Transport.stop() 
-      : Tone.Transport.start();
-    props.togglePlay();
+    props.togglePlay(!props.isPlaying);
   }
   return (
-    <button onClick={handleToggle}>{text}</button>
+    <button onClick={() => handleToggle()}>{text}</button>
   )
 }
 
@@ -42,7 +38,7 @@ const mapStateToProps = state => ({
   bpm: state.bpm
 })
 const mapDispatchToProps = dispatch => ({
-  togglePlay: () => dispatch(togglePlay()),
+  togglePlay: shouldPlay => dispatch(togglePlay(shouldPlay)),
   setBpm: bpm => dispatch(setBpm(bpm))
 })
 

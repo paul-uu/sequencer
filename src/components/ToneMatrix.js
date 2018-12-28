@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import ToneButton from './ToneButton';
-import { toggleTone, asyncToggleTone } from '../actions';
+import { asyncToggleTone } from '../actions';
 import { SIZE } from '../constants';
 import Tone from 'tone';
 import { createNotesArr } from '../utilities';
@@ -12,10 +12,9 @@ import { GridLoader } from 'react-spinners';
 class ToneMatrix extends Component {
   constructor(props) {
     super(props);
-    this.handleToggleTone = this.handleToggleTone.bind(this);
+
     this.handleAsyncToggleTone = this.handleAsyncToggleTone.bind(this);
     this.initStepSequencer = this.initStepSequencer.bind(this);
-
     this.tonesObjToArray = this.tonesObjToArray.bind(this);
 
     this.state = {
@@ -31,9 +30,6 @@ class ToneMatrix extends Component {
     if (previousState.firestoreTones !== this.props.firestoreTones) {
       this.setState({ firestoreTones: this.props.firestoreTones });
     }
-  }
-  handleToggleTone(row, col) {
-    this.props.toggleTone(row, col);
   }
   handleAsyncToggleTone(row, col) {
     this.props.asyncToggleTone(row, col);
@@ -91,7 +87,6 @@ class ToneMatrix extends Component {
                   <ToneButton 
                     key={'' + rowIndex + colIndex} 
                     isActive={col}
-                    toggleTone={this.handleToggleTone.bind(null, rowIndex, colIndex) }
                     asyncToggleTone={this.handleAsyncToggleTone.bind(null, rowIndex, colIndex)} />
                 )
               }
@@ -135,12 +130,10 @@ const mapStateToProps = state => {
   return {
     matrix: state.toneMatrix,
     isPlaying: state.isPlaying,
-    firestore: state.firestore,
     firestoreTones
   }
 };
 const mapDispatchToProps = dispatch => ({
-  toggleTone: (row, col, isActive) => dispatch(toggleTone(row, col)),
   asyncToggleTone: (row, col) => dispatch(asyncToggleTone(row, col))
 })
 

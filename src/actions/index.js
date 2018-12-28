@@ -2,20 +2,28 @@ import {
   TOGGLE_PLAY, TOGGLE_TONE, SET_BPM, SIZE
 } from '../constants';
 import { createEmptyTonesObj } from '../utilities';
+import Tone from 'tone';
 
-export const togglePlay = () => ({ 
-  type: TOGGLE_PLAY
-});
+export const togglePlay = shouldPlay => dispatch => {
+
+  if (shouldPlay) {
+    if (Tone.context.state !== 'running') {
+      Tone.context.resume();
+    }
+    Tone.Transport.start();
+  } else {
+    Tone.Transport.stop();
+  }
+
+  dispatch({
+    type: TOGGLE_PLAY,
+  });
+}
+
 export const setBpm = bpm => ({ 
   type: SET_BPM,
   data: { bpm } 
 });
-
-export const toggleTone = (row, col) => ({
-  type: TOGGLE_TONE,
-  data: { row, col }
-});
-
 
 export const asyncToggleTone = (row, col) => (dispatch, getState, { getFirebase, getFirestore }) => {
   const firestore = getFirestore();
@@ -29,7 +37,6 @@ export const asyncToggleTone = (row, col) => (dispatch, getState, { getFirebase,
 
     tones[row][col] = !tones[row][col];
     toneMatrixRef.set({ 'tones': tones });
-    
   })
   .then(() => {
     dispatch({ 
