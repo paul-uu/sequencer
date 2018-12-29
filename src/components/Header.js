@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { togglePlay, setBpm } from '../actions';
+import { togglePlay } from '../actions';
 import Tone from 'tone';
+import { BPM } from '../constants';
 
 class Header extends Component {
 
   componentDidMount() {
-    Tone.Transport.bpm.value = this.props.bpm;
+    Tone.Transport.bpm.value = BPM;
   }
 
   render() {
@@ -34,12 +35,10 @@ const PlayStop = props => {
 }
 
 const mapStateToProps = state => ({
-  isPlaying: state.isPlaying,
-  bpm: state.bpm
+  isPlaying: state.isPlaying
 })
 const mapDispatchToProps = dispatch => ({
-  togglePlay: shouldPlay => dispatch(togglePlay(shouldPlay)),
-  setBpm: bpm => dispatch(setBpm(bpm))
+  togglePlay: shouldPlay => dispatch(togglePlay(shouldPlay))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

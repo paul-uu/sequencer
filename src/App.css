@@ -53,7 +53,7 @@ html, body {
 
   border: 5px solid #253237;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.2s;
 }
 .tone-button:hover {
   background-color: #9DB4C0;

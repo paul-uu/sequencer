@@ -1,5 +1,5 @@
 import {
-  TOGGLE_PLAY, TOGGLE_TONE, SET_BPM, SIZE
+  TOGGLE_PLAY, TOGGLE_TONE, SIZE
 } from '../constants';
 import { createEmptyTonesObj } from '../utilities';
 import Tone from 'tone';
@@ -19,11 +19,6 @@ export const togglePlay = shouldPlay => dispatch => {
     type: TOGGLE_PLAY,
   });
 }
-
-export const setBpm = bpm => ({ 
-  type: SET_BPM,
-  data: { bpm } 
-});
 
 export const asyncToggleTone = (row, col) => (dispatch, getState, { getFirebase, getFirestore }) => {
   const firestore = getFirestore();
