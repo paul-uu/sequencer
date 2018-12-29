@@ -1,15 +1,31 @@
 html, body {
   height: 100%;
-  background-color: #2D3142;
+  background-color: #253237;
 }
 
-.App {
-  text-align: center;
-}
-
+.clear { clear: both; }
 
 .header {
+  width: 100%;
+  padding: 15px 20px;
   color: #f9f9f9;
+}
+.header__text {
+  margin-bottom: 5px;
+  color: #9DB4C0;
+}
+.header button {
+  background-color: white;
+  color: #253237;
+  border: none;
+  border-radius: 2px;
+  padding: 5px 15px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.header button:active,
+.header button:focus {
+  outline: none;
 }
 
 
@@ -26,7 +42,7 @@ html, body {
   height: 12.5%;
 }
 .tone-button {
-  background-color: #f9f9f9;
+  background-color: #5C6B73;
   padding: 0;
 
   /* flex: 1 1 0; */
@@ -35,12 +51,12 @@ html, body {
   flex-basis: 0;
   height: 100%; 
 
-  border: 5px solid #2D3142;
+  border: 5px solid #253237;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 .tone-button:hover {
-  background-color: #BFC0C0;
+  background-color: #9DB4C0;
 }
 
 .tone-button:focus,
@@ -48,7 +64,7 @@ html, body {
   outline: none;
 }
 .tone-button.active {
-  background-color: #EF8354;
+  background-color: #E0FBFC;
 }
 
 .tone-row:first-child > .tone-button { border-top-width: 5px; }
@@ -64,6 +80,7 @@ html, body {
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: 0;
+  text-align: center;
 }
 
 .beat-marker::after {
@@ -72,13 +89,13 @@ html, body {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  border: 1px solid white;
-  background-color: white;
+  border: 1px solid #5C6B73;
+  background-color: #5C6B73;
 }
 
 .beat-marker.active::after {
-  border-color: #EF8354;
-  background-color: #EF8354;
+  border-color: #E0FBFC;
+  background-color: #E0FBFC;
 }
 
 .grid-loader > div {

@@ -13,11 +13,11 @@ class Header extends Component {
     const isPlaying = this.props.isPlaying;
     return (
       <header className='header'>
+        <h4 className='header__text'>sequencer</h4>
         <PlayStop 
           isPlaying={isPlaying} 
           togglePlay={this.props.togglePlay} />
-
-        <div>BPM: {this.props.bpm}</div>
+        <div className='clear'></div>
       </header>
     )
   }
