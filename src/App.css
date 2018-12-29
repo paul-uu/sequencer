@@ -1,43 +1,46 @@
+html, body {
+  height: 100%;
+  background-color: #2D3142;
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
+.header {
+  color: #f9f9f9;
 }
 
 
-.tones {  }
+
+.tones { 
+  height: calc(100vw - 100px);
+  max-height: calc(100vh - 100px);
+  padding: 0 15px;
+}
 .tone-row {
-  height: 30px;
+  display: flex;
+
+  /* height: 1/8th of screen width => 12.5% */
+  height: 12.5%;
 }
 .tone-button {
-  background-color: white;
+  background-color: #f9f9f9;
   padding: 0;
-  width: 30px;
-  height: 30px;
-  border: 1px solid #999;
+
+  /* flex: 1 1 0; */
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+  height: 100%; 
+
+  border: 5px solid #2D3142;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 .tone-button:hover {
-  background-color: orange;
+  background-color: #BFC0C0;
 }
 
 .tone-button:focus,
@@ -45,26 +48,37 @@
   outline: none;
 }
 .tone-button.active {
-  background-color: red;
+  background-color: #EF8354;
 }
 
-.tone-row:first-child > .tone-button { border-top-width: 2px; }
-.tone-row:last-child > .tone-button  { border-bottom-width: 2px; }
-.tone-button:first-child { border-left-width: 2px; }
-.tone-button:last-child  { border-right-width: 2px; }
+.tone-row:first-child > .tone-button { border-top-width: 5px; }
+.tone-row:last-child > .tone-button  { border-bottom-width: 5px; }
+.tone-button:first-child { border-left-width: 5px; }
+.tone-button:last-child  { border-right-width: 5px; }
 
-.beat-markers {  }
+.beat-markers {
+  display: flex;
+  padding: 0 15px;
+}
 .beat-marker {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+}
+
+.beat-marker::after {
+  content: "";
   display: inline-block;
   width: 4px;
   height: 4px;
-  margin: 0 12px;
   border-radius: 50%;
-  border: 1px solid #999;
+  border: 1px solid white;
   background-color: white;
 }
-.beat-marker.active {
-  background-color: red;
+
+.beat-marker.active::after {
+  border-color: #EF8354;
+  background-color: #EF8354;
 }
 
 .grid-loader > div {

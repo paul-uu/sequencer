@@ -12,7 +12,7 @@ class Header extends Component {
   render() {
     const isPlaying = this.props.isPlaying;
     return (
-      <header>
+      <header className='header'>
         <PlayStop 
           isPlaying={isPlaying} 
           togglePlay={this.props.togglePlay} />

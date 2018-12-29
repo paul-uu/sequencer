@@ -112,11 +112,11 @@ const BeatMarker = props => {
   <div className='beat-markers'>
   {
     markers.map(marker => 
-      <span 
+      <div 
         className={ (props.currentBeat === marker ? 'active' : '') + ' beat-marker' }
         key={marker}
       >
-      </span>)
+      </div>)
   }
   </div>
   )
