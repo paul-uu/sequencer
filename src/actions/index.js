@@ -1,5 +1,5 @@
 import {
-  TOGGLE_PLAY, TOGGLE_TONE, SIZE
+  TOGGLE_PLAY, TOGGLE_TONE, SIZE, TOGGLE_MODAL, SET_USERNAME
 } from '../constants';
 import { createEmptyTonesObj } from '../utilities';
 import Tone from 'tone';
@@ -39,3 +39,18 @@ export const asyncToggleTone = (row, col) => (dispatch, getState, { getFirebase,
     });
   });
 };
+
+
+export const toggleModal = shouldShow => ({
+  type: TOGGLE_MODAL,
+  data: { shouldShow }
+});
+
+export const setUsername = username => ({
+  type: SET_USERNAME,
+  data: { username }
+});
+
+export const asyncSetUsername = username => (dispatch, getState, { getFirestore }) => {
+  // todo
+}

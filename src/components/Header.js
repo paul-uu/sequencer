@@ -1,24 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { togglePlay } from '../actions';
+import { togglePlay, toggleModal } from '../actions';
 import Tone from 'tone';
 import { BPM } from '../constants';
 
 class Header extends Component {
 
+  constructor(props) {
+    super(props);
+    this.showModal = this.showModal.bind(this);
+  }
+
   componentDidMount() {
     Tone.Transport.bpm.value = BPM;
   }
 
+  showModal() {
+    this.props.toggleModal(true);
+  }
+
   render() {
     const isPlaying = this.props.isPlaying;
+    const username = this.props.username
+      ? `hello ${this.props.username}`
+      : `what's your name?`;
+
     return (
       <header className='header'>
         <h4 className='header__text'>sequencer</h4>
+        <div className='header__username' onClick={this.showModal}>
+          {username}
+        </div>
         <PlayStop 
           isPlaying={isPlaying} 
           togglePlay={this.props.togglePlay} />
-        <div className='clear'></div>
       </header>
     )
   }
@@ -26,8 +41,8 @@ class Header extends Component {
 
 const PlayStop = props => {
   const icon = props.isPlaying
-    ? <i class="fa fa-pause" aria-hidden="true"></i>
-    : <i class="fa fa-play" aria-hidden="true"></i>;
+    ? <i className="fa fa-pause" aria-hidden="true"></i>
+    : <i className="fa fa-play" aria-hidden="true"></i>;
 
   var handleToggle = () => {
     props.togglePlay(!props.isPlaying);
@@ -39,10 +54,12 @@ const PlayStop = props => {
 }
 
 const mapStateToProps = state => ({
-  isPlaying: state.isPlaying
+  isPlaying: state.isPlaying,
+  username: state.username
 })
 const mapDispatchToProps = dispatch => ({
-  togglePlay: shouldPlay => dispatch(togglePlay(shouldPlay))
+  togglePlay: shouldPlay => dispatch(togglePlay(shouldPlay)),
+  toggleModal: shouldShow => dispatch(toggleModal(shouldShow))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import ToneButton from './ToneButton';
-import { asyncToggleTone } from '../actions';
+import { asyncToggleTone, toggleModal } from '../actions';
 import { SIZE } from '../constants';
 import Tone from 'tone';
 import { createNotesArr } from '../utilities';
@@ -32,6 +32,10 @@ class ToneMatrix extends Component {
     }
   }
   handleAsyncToggleTone(row, col) {
+    if (this.props.username.length <= 0) {
+      this.props.toggleModal(true);
+      return;
+    }
     this.props.asyncToggleTone(row, col);
   }
 
@@ -130,11 +134,14 @@ const mapStateToProps = state => {
   return {
     matrix: state.toneMatrix,
     isPlaying: state.isPlaying,
-    firestoreTones
+    firestoreTones,
+    username: state.username,
+    isModalShown: state.isModalShown  
   }
 };
 const mapDispatchToProps = dispatch => ({
-  asyncToggleTone: (row, col) => dispatch(asyncToggleTone(row, col))
+  asyncToggleTone: (row, col) => dispatch(asyncToggleTone(row, col)),
+  toggleModal: shouldShow => dispatch(toggleModal(shouldShow))
 })
 
 export default compose(
