@@ -1,3 +1,7 @@
+* { 
+  box-sizing: border-box; 
+}
+
 html, body {
   height: 100%;
   background-color: #253237;
@@ -8,27 +12,21 @@ html, body {
 .header {
   width: 100%;
   padding: 15px 20px;
-  color: #f9f9f9;
 }
 .header__text {
-  margin-bottom: 5px;
+  margin-bottom: 7.5px;
   color: #9DB4C0;
 }
-.header button {
-  background-color: white;
-  color: #253237;
-  border: none;
-  border-radius: 2px;
-  padding: 5px 15px;
-  font-size: 16px;
+
+.play-stop {
+  font-size: 28px;
   cursor: pointer;
+  color: #E0FBFC;
+  transition: color 0.2s;
 }
-.header button:active,
-.header button:focus {
-  outline: none;
+.play-stop:hover {
+  color: #C2DFE3;
 }
-
-
 
 .tones { 
   height: calc(100vw - 100px);
@@ -66,11 +64,6 @@ html, body {
 .tone-button.active {
   background-color: #E0FBFC;
 }
-
-.tone-row:first-child > .tone-button { border-top-width: 5px; }
-.tone-row:last-child > .tone-button  { border-bottom-width: 5px; }
-.tone-button:first-child { border-left-width: 5px; }
-.tone-button:last-child  { border-right-width: 5px; }
 
 .beat-markers {
   display: flex;

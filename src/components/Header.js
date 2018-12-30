@@ -25,12 +25,16 @@ class Header extends Component {
 }
 
 const PlayStop = props => {
-  const text = props.isPlaying ? 'Stop' : 'Play';
+  const icon = props.isPlaying
+    ? <i class="fa fa-pause" aria-hidden="true"></i>
+    : <i class="fa fa-play" aria-hidden="true"></i>;
+
   var handleToggle = () => {
     props.togglePlay(!props.isPlaying);
   }
+
   return (
-    <button onClick={() => handleToggle()}>{text}</button>
+    <span className='play-stop' onClick={() => handleToggle()}>{icon}</span>
   )
 }
 
