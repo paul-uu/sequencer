@@ -51,6 +51,36 @@ export const setUsername = username => ({
   data: { username }
 });
 
-export const asyncSetUsername = username => (dispatch, getState, { getFirestore }) => {
-  // todo
+export const asyncSetUsername = (username, isAdded) => (dispatch, getState, { getFirebase, getFirestore }) => {
+
+  const firestore = getFirestore();
+  const firebase = getFirebase();
+  const currentUsersRef = firestore.collection('currentUsers').doc('currentUsers');
+
+  currentUsersRef.get().then(doc => {
+    const currentUsers = doc.data().users;
+
+    if (isAdded) {
+      if (currentUsers.contains(username) ) {
+        return;  
+      }
+      currentUsersRef.update({ 
+        users:  firebase.firestore.FieldValue.arrayUnion(username)
+      });
+      return;
+    }
+    else {
+      currentUsersRef.update({ 
+        users: firebase.firestore.FieldValue.arrayRemove(username) 
+      });
+    }
+  })
+  .then(() => {
+    dispatch(setUsername(username));
+  })
+  .catch(err => {
+    dispatch({ type: 'SET_USERNAME_ERROR', error: err })
+    console.log('error setting username: ' + username);
+  });
+
 }
