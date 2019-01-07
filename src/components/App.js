@@ -2,31 +2,44 @@ import React, { Component } from 'react';
 import '../App.css';
 import Header from './Header';
 import ToneMatrix from './ToneMatrix';
+import UsersList from './UsersList';
 import UsernameModal from './UsernameModal';
 import { connect } from 'react-redux';
-import { setUsername } from '../actions';
+import { setUsername, asyncSetUsername } from '../actions';
 
 class App extends Component {
 
-  componentDidMount() {
-    window.addEventListener("beforeunload", e => {
-      this.props.setUsername(null);
-    })
+  componentDidUpdate(prevProps) {
+    if (this.props.username !== "") {
+      window.onbeforeunload = e => {
+        this.props.asyncSetUsername(this.props.username, false);
+      }
+    }
   }
-  
+
   render() {
     return (
       <div className="App">
         <Header />
-        <ToneMatrix />
+
+        <div className='flex-container'>
+          <ToneMatrix />
+          <UsersList />        
+        </div>
+
         <UsernameModal />
       </div>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  setUsername: username => dispatch(setUsername(username))
+const mapStateToProps = state => ({
+  username: state.username
 });
 
-export default connect(null, mapDispatchToProps)(App);
+const mapDispatchToProps = dispatch => ({
+  setUsername: username => dispatch(setUsername(username)),
+  asyncSetUsername: (username, isAdded) => dispatch(asyncSetUsername(username, isAdded))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

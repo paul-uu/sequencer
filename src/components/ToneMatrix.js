@@ -79,32 +79,29 @@ class ToneMatrix extends Component {
     const firestoreTonesArr = this.tonesObjToArray(this.state.firestoreTones);
     let currentBeat = this.state.currentBeat;
     return (
-      <div>
-        <section className='tones'>
-        {
-          firestoreTonesArr.length === SIZE
-      
-            ? (firestoreTonesArr.map((row, rowIndex) => 
-              <div className='tone-row' key={`row-${rowIndex}`}>
-              {
-                row.map((col, colIndex) => 
-                  <ToneButton 
-                    key={'' + rowIndex + colIndex} 
-                    isActive={col}
-                    asyncToggleTone={this.handleAsyncToggleTone.bind(null, rowIndex, colIndex)} />
-                )
-              }
-              </div>
-            )) : (
-              <div className='grid-loader'>
-                <GridLoader color={'#999'} size={30} />
-              </div>
-            )
-        }
-        </section>
-
-        { firestoreTonesArr.length === SIZE && <BeatMarker currentBeat={currentBeat} /> }
-      </div>
+      <section className='tones'>
+      {
+        firestoreTonesArr.length === SIZE
+    
+          ? (firestoreTonesArr.map((row, rowIndex) => 
+            <div className='tone-row' key={`row-${rowIndex}`}>
+            {
+              row.map((col, colIndex) => 
+                <ToneButton 
+                  key={'' + rowIndex + colIndex} 
+                  isActive={col}
+                  asyncToggleTone={this.handleAsyncToggleTone.bind(null, rowIndex, colIndex)} />
+              )
+            }
+            </div>
+          )) : (
+            <div className='grid-loader'>
+              <GridLoader color={'#999'} size={30} />
+            </div>
+          )
+      }
+      { firestoreTonesArr.length === SIZE && <BeatMarker currentBeat={currentBeat} /> }
+      </section>
     )
   }
 }

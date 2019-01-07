@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setUsername, toggleModal } from '../actions';
+import { setUsername, asyncSetUsername, toggleModal } from '../actions';
 
 class UsernameModal extends Component {
 
@@ -27,7 +27,7 @@ class UsernameModal extends Component {
       return;
     }
 
-    this.props.setUsername(this.state.username);
+    this.props.asyncSetUsername(this.state.username, true);
     this.setState({ inputError: '' });
     this.closeModal();
     return;
@@ -88,6 +88,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   setUsername: username => dispatch(setUsername(username)),
+  asyncSetUsername: (username, isAdded) => dispatch(asyncSetUsername(username, isAdded)),
   toggleModal: shouldShow => dispatch(toggleModal(shouldShow))
 });
 

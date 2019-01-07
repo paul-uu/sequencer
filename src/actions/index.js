@@ -61,11 +61,12 @@ export const asyncSetUsername = (username, isAdded) => (dispatch, getState, { ge
     const currentUsers = doc.data().users;
 
     if (isAdded) {
-      if (currentUsers.contains(username) ) {
+      if (currentUsers.indexOf(username) > -1) {
+        console.log('username taken');
         return;  
       }
       currentUsersRef.update({ 
-        users:  firebase.firestore.FieldValue.arrayUnion(username)
+        users: firebase.firestore.FieldValue.arrayUnion(username)
       });
       return;
     }
@@ -81,6 +82,7 @@ export const asyncSetUsername = (username, isAdded) => (dispatch, getState, { ge
   .catch(err => {
     dispatch({ type: 'SET_USERNAME_ERROR', error: err })
     console.log('error setting username: ' + username);
+    console.log(err);
   });
 
 }

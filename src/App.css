@@ -36,11 +36,46 @@ html, body {
   color: #C2DFE3;
 }
 
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+}
+
+
+/* todo layout: flexbox */
+.users-list {
+  flex-grow: 1;
+  flex-basis: 200px;
+  /* width: 200px; */
+
+  color: #C2DFE3;
+}
+.user {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+.users-list__header {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+
 .tones { 
+  flex-grow: 3;
+  flex-basis: calc(100% - 200px);
+  /* width: calc(100% - 200px); */
   height: calc(100vw - 100px);
   max-height: calc(100vh - 105px);
+  
   padding: 0 15px;
 }
+@media only screen and (max-width: 768px) {
+  .tones {
+    width: 100%;
+  }
+}
+
 .tone-row {
   display: flex;
 
